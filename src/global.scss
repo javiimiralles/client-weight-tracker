@@ -35,3 +35,30 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/* Mi CSS */
+
+/* Modales customizados */
+ion-modal#modal-dialog {
+  --width: fit-content;
+  --min-width: 250px;
+  --height: fit-content;
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+
+ion-modal#modal-dialog h2 {
+  margin: 20px 20px 10px 20px;
+}
+
+ion-modal#modal-dialog .wrapper {
+  margin-bottom: 10px;
+}
+
+/* Tarjetas customizadas */
+ion-card {
+  border-radius: 20px;
+  box-shadow:  5px 5px 10px #9d9d9d,
+              -5px -5px 10px #ffffff;
+}
+

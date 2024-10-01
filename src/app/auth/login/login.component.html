@@ -1,3 +1,47 @@
-<p>
-  login works!
-</p>
+<div class="login-container">
+  <div class="login-header">
+    <img src="assets/img/logo.png" alt="Logo" class="logo"/>
+    <h1>WeightTracker</h1>
+    <p>Controla tu peso</p>
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+    <ion-item>
+      <ion-input
+        formControlName="username"
+        type="text"
+        label="Nombre de usuario"
+        labelPlacement="floating"
+        required
+      ></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="loginForm.controls['username']?.invalid && loginForm.controls['username']?.touched">
+      <p>Este campo es obligatorio</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-input
+        formControlName="password"
+        type="password"
+        label="Contraseña"
+        labelPlacement="floating"
+        required
+      ></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="loginForm.controls['password']?.invalid && loginForm.controls['password']?.touched">
+      <p>Este campo es obligatorio</p>
+    </ion-text>
+
+    <ion-text class="ion-text-center">
+      <p><a href="#">¿Has olvidado tu contraseña?</a></p>
+    </ion-text>
+
+    <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">
+      Iniciar sesión
+    </ion-button>
+  </form>
+
+  <div class="create-account">
+    <p>¿No estás registrado? <a href="#" >Crea una cuenta</a></p>
+  </div>
+</div>

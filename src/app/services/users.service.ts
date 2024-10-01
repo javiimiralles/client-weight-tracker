@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../models/users.model';
 import { catchError, map, Observable, of, tap } from 'rxjs';
@@ -44,6 +44,20 @@ export class UsersService {
     return this.validate(false, true);
   }
 
+  updateUser(user:User) {
+    user._id = this._id;
+    console.log(user);
+    return this.http.put(`${environment.base_url}/users/${this._id}`, user, getHeaders());
+  }
+
+  updatePassword(passwordForm: FormGroup) {
+    return this.http.put(`${environment.base_url}/users/change-password/${this._id}`, passwordForm.value, getHeaders());
+  }
+
+  deleteUser() {
+    return this.http.delete(`${environment.base_url}/users/${this._id}`, getHeaders());
+  }
+
   private validate(correct: boolean, incorrect: boolean): Observable<boolean> {
 
     if (this.token === '') {
@@ -54,9 +68,9 @@ export class UsersService {
     return this.http.get(`${environment.base_url}/login/token`, getHeaders())
       .pipe(
         tap((res: any) => {
-          const { token, uid, username, gender, height, age, targetWeight } = res;
+          const { token, _id, username, email, gender, height, age, targetWeight } = res;
           localStorage.setItem('token', token);
-          this.user = new User(uid, username, null, gender, height, age, targetWeight);
+          this.user = new User(_id, username, email, null, gender, height, age, targetWeight);
         }),
         map (res => {
           return correct;
@@ -82,6 +96,10 @@ export class UsersService {
 
   get username(): string {
     return this.user.username;
+  }
+
+  get email(): string {
+    return this.user.email;
   }
 
   get gender(): string {

@@ -1,3 +1,111 @@
-<p>
-  home works!
-</p>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Panel Principal</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/profile']">
+        <ion-icon slot="icon-only" name="person-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" mode="ios">
+  <!-- Peso actual vs objetivo -->
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col size="6" class="ion-text-center">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Actual</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <h1>68 kg</h1>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" class="ion-text-center">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Objetivo</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <h1>75 kg</h1>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Segmentos -->
+  <ion-segment color="primary" [value]="currentSegment" (ionChange)="onSegmentChange($event)">
+    <ion-segment-button value="graphic">
+      <ion-label>Gráfico</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="list">
+      <ion-label>Listado</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Gráfico -->
+
+  <!-- Listado -->
+  @if(currentSegment === 'list') {
+    <ion-list>
+      <ion-item *ngFor="let record of weightRecords" (click)="setCurrentWeightRecord(record); isModalOpen=true;">
+        <ion-label>
+          <h2>{{ record.weight }} kg</h2>
+          <p>{{ record.date | date: 'dd/MM/yyyy' }}</p>
+        </ion-label>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" (click)="onDelete(record._id, $event)">
+            <ion-icon name="trash" color="danger"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+  }
+
+  <!-- Botón flotante -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="setCurrentWeightRecord(null); isModalOpen=true;">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Modal con formulario -->
+  <ion-modal id="modal-dialog" #modal [isOpen]="isModalOpen" [backdropDismiss]="false">
+    <ng-template>
+      <div class="wrapper">
+        <h2>Registro de peso</h2>
+        <form [formGroup]="weightRecordForm">
+          <ion-item lines="none">
+            <ion-input
+              type="number"
+              label="Peso (kg)"
+              labelPlacement="floating"
+              placeholder="Peso"
+              formControlName="weight">
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="weightRecordForm.controls['weight']?.invalid && weightRecordForm.controls['weight']?.touched">
+            <p>Este campo es obligatorio</p>
+          </ion-text>
+          <ion-item lines="none">
+            <ion-input
+              type="date"
+              label="Fecha"
+              labelPlacement="floating"
+              placeholder="Fecha"
+              formControlName="date">
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="weightRecordForm.controls['date']?.invalid && weightRecordForm.controls['date']?.touched">
+            <p>Este campo es obligatorio</p>
+          </ion-text>
+        </form>
+        <ion-button fill="clear" (click)="onSave()">Guardar</ion-button>
+        <ion-button fill="clear" (click)="isModalOpen=false">Cancelar</ion-button>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

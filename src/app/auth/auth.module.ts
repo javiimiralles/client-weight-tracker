@@ -5,13 +5,19 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AuthLayoutComponent } from '../layouts/auth-layout/auth-layout.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   exports: [
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     IonicModule,

@@ -17,11 +17,8 @@ export class AuthGuard implements CanActivate {
       return this.usersService.validateToken()
               .pipe(
                 tap( resp => {
-                  // Si devuelve falso, el token no es bueno, salimos a login
                   if (!resp) {
                     this.router.navigateByUrl('/login');
-                  } else {
-                    this.router.navigateByUrl('/home');
                   }
                 })
               );
